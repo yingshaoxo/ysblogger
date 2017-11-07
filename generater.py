@@ -1,7 +1,7 @@
 import os
 import json
 
-import markdown
+import markdown2
 
 
 class Updater():
@@ -59,16 +59,87 @@ class Generater():
         if not os.path.exists(self.postdir):
             os.mkdir(self.postdir)
 
+    def get_all_post(self):
+        all_ = os.listdir(self.postdir)
+        all_ = [name[:-5] for name in all_ if name[-5:] == '.html' and name[:-5] != 'index']
+        return all_
+
+    def create_index(self):
+        names = self.get_all_post()
+        html = '''
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Post Link</title>
+<style>
+    .content {
+        max-width: 500px;
+        margin: auto;
+        padding: 10px;
+    }
+</style>
+</head>
+'''
+        list_html = '\n'.join(['<center><a href="{name}.html">{name}</a></center><br>'.format(name=name) for name in names])
+        html = html + '<div class="content">\n' + list_html + '</div>'
+        with open(os.path.join(self.postdir, 'index.html'), 'w', encoding='utf-8') as f:
+            f.write(html)
+
     def generate(self, file_list):
         for name in file_list:
             name = os.path.basename(name)
-            html = markdown.markdown(self.read_md(name), output_format='html5')
-            self.write_html(name[:-3] + '.html', html)
+            html = markdown2.markdown(self.read_md(name), extras=["code-friendly", "fenced-code-blocks"])
+            name = name[:-3]
+            html = self.render(name, html)
+            self.write_html(name + '.html', html)
+
+    def render(self, title, html):
+        # Make the whole page in the center
+        prefix = '''
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../static/github-markdown.css">
+<title>$title$</title>
+<style>
+    .content {
+        max-width: 500px;
+        margin: auto;
+        padding: 10px;
+    }
+    .markdown-body {
+        box-sizing: border-box;
+        min-width: 200px;
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 45px;
+    }
+
+    @media (max-width: 767px) {
+        .markdown-body {
+            padding: 15px;
+        }
+    }
+</style>
+</head>
+'''.replace('$title$', title)
+        #html = prefix + '<div class="content">\n' + html + '\n</div>'
+        html = prefix + '<article class="markdown-body">\n' + html + '\n</article>'
+        
+        # Add mathjax to it
+        html += '''
+
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_HTML">
+</script>
+'''
+        return html
     
     def read_md(self, name):
         with open(os.path.join(self.mddir, name), mode='r') as f:
             text = f.read()
-        return text
+        title = name[:-3] 
+        return '# ' + title +'\n___\n\n' + text
         
     def write_html(self, name, html):
         with open(os.path.join(self.postdir, name), mode='w') as f:
@@ -76,10 +147,11 @@ class Generater():
         
         
 
-
-u = Updater()
-g = Generater()
-need_to_change = u.get_changed()
-print(need_to_change)
-g.generate(need_to_change)
-print('ok')
+if __name__ == '__main__':
+    u = Updater()
+    g = Generater()
+    need_to_change = u.get_changed()
+    print(need_to_change)
+    g.generate(need_to_change)
+    print('Done')
+    g.create_index()
