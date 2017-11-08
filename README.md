@@ -1,2 +1,2 @@
 # ysblogger
-This is blog generator made by myself.
+This is a blog generator made by myself.
