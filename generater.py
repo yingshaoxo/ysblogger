@@ -1,5 +1,6 @@
 import os
 import json
+import shutil
 
 import markdown2
 
@@ -54,10 +55,13 @@ class Generater():
         self.root = os.path.dirname(__file__)
         self.mddir = os.path.join(self.root, 'article')
         self.postdir = os.path.join(self.root, 'post')
+        self.staticdir = os.path.join(self.postdir, 'static')
         if not os.path.exists(self.mddir):
             os.mkdir(self.mddir)
         if not os.path.exists(self.postdir):
             os.mkdir(self.postdir)
+        if not os.path.exists(self.staticdir):
+            shutil.copytree(os.path.join(self.root, 'static'), self.staticdir)
 
     def get_all_md(self):
         all_ = os.listdir(self.mddir)
@@ -105,7 +109,7 @@ class Generater():
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="../static/github-markdown.css">
+<link rel="stylesheet" href="static/github-markdown.css">
 <title>$title$</title>
 <style>
     .content {
@@ -170,7 +174,7 @@ class Generater():
         padding: 10px;
     }
     a {
-        font-size: 65px; 
+        font-size: 50px; 
         text-decoration: none;
     }
 </style>

@@ -15,6 +15,13 @@ push() {
     git push origin
 }
 
+publish() {
+    mkdir ../yingshaoxo.github.io/post
+    cp post/* ../yingshaoxo.github.io/post -fr
+    cd ../yingshaoxo.github.io
+    bash tool.sh push
+}
+
 if [ "$1" == "run" ]; then
     run
 
@@ -24,9 +31,13 @@ elif [ "$1" == "pull" ]; then
 elif [ "$1" == "push" ]; then
     push
 
+elif [ "$1" == "publish" ]; then
+    publish
+
 elif [ "$1" == "" ]; then
     echo "run 
 pull
-push"
+push
+publish"
 
 fi
