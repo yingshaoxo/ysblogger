@@ -1,6 +1,6 @@
-You may wander what I have learned during 2015 and 2016.
+#### You may wander what I have learned during 2015 and 2016.
 
-Let's count one by one:
+#### Let's count one by one:
 
 
 1. reading list
@@ -39,7 +39,7 @@ Let's count one by one:
     Talking with you.
 
 
-To do 2017:
+#### To do 2017:
 
 1. At least solve 100 algorithm problems during this year
 2. Insist learning on Khan Academy everyday
