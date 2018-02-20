@@ -22,12 +22,12 @@ class Updater():
         self.new_files_with_date = dict([(os.path.join(self.dir, name), os.path.getmtime(os.path.join(self.dir, name))) for name in os.listdir(self.dir) if name[-3:] == '.md'])
 
     def save_info(self):
-        with open(os.path.join(self.dir, 'setting.json'), mode='w') as f:
+        with open(os.path.join(self.dir, 'info.json'), mode='w') as f:
             f.write(json.dumps(self.new_files_with_date))
 
     def read_info(self):
         try:
-            with open(os.path.join(self.dir, 'setting.json'), mode='r') as f:
+            with open(os.path.join(self.dir, 'info.json'), mode='r') as f:
                 content = f.read()
             self.old_files_with_date = json.loads(content)
         except Exception as e:
@@ -40,10 +40,10 @@ class Updater():
         for name, time in self.new_files_with_date.items():
             new.update({name: time})
             old_time = self.old_files_with_date.get(name)
-            if old_time: # file exsist in old_setting
+            if old_time: # file exsist in old_info
                 if time > old_time:
                     self.changed.append(name)
-            else: # file do not exsist in old_setting
+            else: # file do not exsist in old_info
                 self.changed.append(name)
         self.new_files_with_date = new
         self.save_info()
@@ -67,6 +67,23 @@ class Generater():
     def get_all_post(self):
         all_ = os.listdir(self.postdir)
         all_ = [name[:-5] for name in all_ if name[-5:] == '.html' and name[:-5] != 'index']
+        return all_
+
+    def get_all_post_by_time(self):
+        try:
+            with open(os.path.join(self.mddir, 'info.json'), mode='r') as f:
+                content = f.read()
+            files_with_date = json.loads(content)
+        except Exception as e:
+            print(e)
+            files_with_date = {}
+
+        all_ = []
+        for key in sorted(files_with_date, key=files_with_date.get):
+            all_.append(key)
+
+        all_ = list(reversed(all_))
+        all_ = [name[:-3][len('artical/'):] for name in all_]
         return all_
 
     def read_md(self, name):
@@ -140,12 +157,12 @@ class Generater():
                 self.remove_html(name)
 
     def create_index(self):
-        names = self.get_all_post()
+        names = self.get_all_post_by_time()
         html = '''
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Post Link</title>
+<title>Post Links</title>
 <style>
     .content {
         max-width: 500px;
