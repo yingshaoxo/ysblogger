@@ -59,39 +59,28 @@ class Generater():
         if not os.path.exists(self.postdir):
             os.mkdir(self.postdir)
 
+    def get_all_md(self):
+        all_ = os.listdir(self.mddir)
+        all_ = [name[:-3] for name in all_ if name[-3:] == '.md']
+        return all_
+
     def get_all_post(self):
         all_ = os.listdir(self.postdir)
         all_ = [name[:-5] for name in all_ if name[-5:] == '.html' and name[:-5] != 'index']
         return all_
 
-    def create_index(self):
-        names = self.get_all_post()
-        html = '''
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Post Link</title>
-<style>
-    .content {
-        max-width: 500px;
-        margin: auto;
-        padding: 10px;
-    }
-</style>
-</head>
-'''
-        list_html = '\n'.join(['<center><a href="{name}.html">{name}</a></center><br>'.format(name=name) for name in names])
-        html = html + '<div class="content">\n' + list_html + '</div>'
-        with open(os.path.join(self.postdir, 'index.html'), 'w', encoding='utf-8') as f:
+    def read_md(self, name):
+        with open(os.path.join(self.mddir, name), mode='r') as f:
+            text = f.read()
+        title = name[:-3] 
+        return '# ' + title +'\n\n' + text# 
+        
+    def write_html(self, name, html):
+        with open(os.path.join(self.postdir, name), mode='w') as f:
             f.write(html)
 
-    def generate(self, file_list):
-        for name in file_list:
-            name = os.path.basename(name)
-            html = markdown2.markdown(self.read_md(name), extras=["code-friendly", "fenced-code-blocks"])
-            name = name[:-3]
-            html = self.render(name, html)
-            self.write_html(name + '.html', html)
+    def remove_html(self, name):
+        os.remove(os.path.join(self.postdir, name + '.html'))
 
     def render(self, title, html):
         # Make the whole page in the center
@@ -113,6 +102,8 @@ class Generater():
         max-width: 980px;
         margin: 0 auto;
         padding: 45px;
+
+        font-size: 20px; 
     }
 
     @media (max-width: 767px) {
@@ -123,7 +114,6 @@ class Generater():
 </style>
 </head>
 '''.replace('$title$', title)
-        #html = prefix + '<div class="content">\n' + html + '\n</div>'
         html = prefix + '<article class="markdown-body">\n' + html + '\n</article>'
         
         # Add mathjax to it
@@ -134,17 +124,45 @@ class Generater():
 </script>
 '''
         return html
-    
-    def read_md(self, name):
-        with open(os.path.join(self.mddir, name), mode='r') as f:
-            text = f.read()
-        title = name[:-3] 
-        return '# ' + title +'\n___\n\n' + text
-        
-    def write_html(self, name, html):
-        with open(os.path.join(self.postdir, name), mode='w') as f:
+
+    def generate(self, file_list):
+        for name in file_list:
+            name = os.path.basename(name)
+            html = markdown2.markdown(self.read_md(name), extras=["code-friendly", "fenced-code-blocks"])
+            name = name[:-3]
+            html = self.render(name, html)
+            self.write_html(name + '.html', html)
+
+    def remove(self):
+        mds = self.get_all_md()
+        for name in self.get_all_post():
+            if name not in mds and name != 'index':
+                self.remove_html(name)
+
+    def create_index(self):
+        names = self.get_all_post()
+        html = '''
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Post Link</title>
+<style>
+    .content {
+        max-width: 500px;
+        margin: auto;
+        padding: 10px;
+    }
+    a {
+        font-size: 65px; 
+        text-decoration: none;
+    }
+</style>
+</head>
+'''
+        list_html = '\n'.join(['<center><a href="{name}.html">{name}</a></center><br><hr>'.format(name=name) for name in names])
+        html = html + '<div class="content">\n' + list_html + '</div>'
+        with open(os.path.join(self.postdir, 'index.html'), 'w', encoding='utf-8') as f:
             f.write(html)
-        
         
 
 if __name__ == '__main__':
@@ -153,5 +171,6 @@ if __name__ == '__main__':
     need_to_change = u.get_changed()
     print(need_to_change)
     g.generate(need_to_change)
+    g.remove()
     print('Done')
     g.create_index()
