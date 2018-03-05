@@ -16,6 +16,7 @@ push() {
 }
 
 publish() {
+    push
     mkdir ../yingshaoxo.github.io/post
     cp post/* ../yingshaoxo.github.io/post -fr
     cd ../yingshaoxo.github.io
