@@ -52,4 +52,6 @@ ___
 ### 3. Good to go
 Now you are able to run your `service` using `startService` function
 
-For example: `startService(yingshaoxo_layout)`, have fun!
+Example: https://github.com/yingshaoxo/Offline_Netease_MusicPlayer
+
+Have fun!
