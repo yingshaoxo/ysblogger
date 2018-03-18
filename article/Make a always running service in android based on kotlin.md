@@ -9,7 +9,7 @@ Unofficial but reachable: [tutorials_point](https://www.tutorialspoint.com/andro
 ___
 
 ### 2. Getting started
-+ Create a kotlin file which names `MyService.kt`, and put the following codes:
++ Create a kotlin file which names `MyService.kt`, and put the following codes in:
 ```
 class MyService : Service() {
     @Nullable
@@ -35,7 +35,7 @@ class MyService : Service() {
 <service android:name=".MyService" />
 ```
 
-+ Add following to a `.kt` file(means activity or Kotlin file) where you wanna call your `service`
++ Add following to a `.kt` file(means right in main_activity) where you wanna call your `service`
 ```
     // The View is just a widget in your UI xml
 
@@ -50,7 +50,7 @@ class MyService : Service() {
 ___
 
 ### 3. Good to go
-Now you are able to run your `service` using `startService` function
+Now you are able to run your `service` using `startService(your_layout_id)` function
 
 Example: https://github.com/yingshaoxo/Offline_Netease_MusicPlayer
 
