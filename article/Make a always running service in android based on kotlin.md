@@ -1,5 +1,9 @@
 ### 0. What is `service`?
 You could see `service` as a always running program
+
+But by default, a service runs in the same process as the main thread of the application
+
+Therefore, you need to use asynchronous processing in the service to perform resource intensive tasks in the background
 ___
 
 ### 1. Basic idea or resources
