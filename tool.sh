@@ -21,6 +21,7 @@ publish() {
     cp post/* ../yingshaoxo.github.io/post -fr
     cd ../yingshaoxo.github.io
     bash tool.sh push
+    cd ../ysblogger
 }
 
 if [ "$1" == "run" ]; then
