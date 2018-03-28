@@ -21,13 +21,13 @@ vim ~/.jupyter/jupyter_notebook_config.json
 {
   "NotebookApp": {
     "ip": "0.0.0.0",
-    "port": "8888"
+    "port": 8888
   }
 }
 ```
 
 #### 5. run it
 ```
-jupyter-notebook
+jupyter-notebook --allow-root
 ```
 
