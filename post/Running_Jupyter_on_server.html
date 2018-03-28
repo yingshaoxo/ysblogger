@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="static/github-markdown.css">
-<title>Running_Jupter_on_server</title>
+<title>Running_Jupyter_on_server</title>
 <style>
     .content {
         max-width: 500px;
@@ -28,7 +28,7 @@
 </style>
 </head>
 <article class="markdown-body">
-<h1>Running_Jupter_on_server</h1>
+<h1>Running_Jupyter_on_server</h1>
 
 <h4>1. install</h4>
 
@@ -37,12 +37,12 @@
 
 <h4>2. create config</h4>
 
-<pre><code>jupyter notebook --generate-config
+<pre><code>jupyter-notebook --generate-config
 </code></pre>
 
 <h4>3. set password</h4>
 
-<pre><code>jupyter notebook password
+<pre><code>jupyter-notebook password
 </code></pre>
 
 <h4>4. set ip</h4>
@@ -53,8 +53,17 @@
 <pre><code>{
   "NotebookApp": {
     "ip": "0.0.0.0",
+    "port": "8888"
   }
 }
+
+
+
+md5-990ebed7752913c7cd0a34b71e8d0c97
+
+
+
+jupyter-notebook
 </code></pre>
 
 </article>
