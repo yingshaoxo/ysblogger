@@ -27,3 +27,6 @@
 
     gitbook pdf .
     ```
+6. Write in local
+
+    https://github.com/GitbookIO/editor-legacy#how-to-install-it-on-linux
