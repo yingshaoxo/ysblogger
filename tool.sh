@@ -24,8 +24,15 @@ publish() {
     cd ../ysblogger
 }
 
+show() {
+    xdg-open post/index.html
+}
+
 if [ "$1" == "run" ]; then
     run
+
+elif [ "$1" == "show" ]; then
+    show
 
 elif [ "$1" == "pull" ]; then
     pull
@@ -38,6 +45,7 @@ elif [ "$1" == "publish" ]; then
 
 elif [ "$1" == "" ]; then
     echo "run 
+show
 pull
 push
 publish"
