@@ -12,7 +12,7 @@ class BlogTool():
     """
     def __init__(self):
         if not t.exists('.last_article'):
-            name = input("What's the name of your article?").strip(' ')
+            name = input("What's the name of your article? ").strip(' ')
             self.new(name)
 
     def new(self, article_name):
@@ -27,13 +27,13 @@ class BlogTool():
         self.write()
 
     def write(self):
-        """start to write blog"""
+        """start to write blog using web editor"""
+        t.run_program('xdg-open editor.html')
+
+    def change(self):
+        """change markdown file by vim"""
         last_article = io.read('.last_article')
-        last_article_content = io.read(last_article)
-        if last_article_content.strip(' \n') == "":
-            t.run_program('xdg-open editor.html')
-        else:
-            t.run_program('terminator -e "vim {}"'.format(last_article))
+        t.run_program('''terminator -e "vim '{}'"'''.format(last_article))
 
     def delete(self):
         """delete the last_article"""
