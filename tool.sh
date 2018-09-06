@@ -1,7 +1,7 @@
 #!/bin/bash
 
 run() {
-    python3.6 generater.py
+    python3 generater.py
 }
 
 pull() {
@@ -16,6 +16,7 @@ push() {
 }
 
 publish() {
+    run
     push
     mkdir ../yingshaoxo.github.io/post
     cp post/* ../yingshaoxo.github.io/post -fr
