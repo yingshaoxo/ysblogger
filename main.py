@@ -30,7 +30,7 @@ class BlogTool():
         """start to write blog"""
         last_article = io.read('.last_article')
         last_article_content = io.read(last_article)
-        if last_article_content == "":
+        if last_article_content.strip(' \n') == "":
             t.run_program('xdg-open editor.html')
         else:
             t.run_program('terminator -e "vim {}"'.format(last_article))
