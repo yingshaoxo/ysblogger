@@ -28,7 +28,9 @@ class BlogTool():
 
     def write(self):
         """start to write blog using web editor"""
-        t.run_program('xdg-open editor.html')
+        #t.run_program('code editor.html')
+        last_article = io.read('.last_article')
+        t.run_program(f'code "{last_article}"')
 
     def change(self):
         """change markdown file by vim"""
