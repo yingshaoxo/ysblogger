@@ -40,6 +40,6 @@ open your browser like `firefox` or `chrome`, press `F12`, you shell see a debug
 
 ### 3. Beyond all of these, is endless packages and their own special usage, like `react`, `vue`
     
-    congratulations! you have learned all you should know to make a JavaScript project!
+congratulations! you have learned all you should know to make a JavaScript project!
 
-    I'll see you soon, don't forget to support me, I am poor in Money: [PayPal](https://www.paypal.me/yingshaoxo)
+I'll see you soon, don't forget to support me, I am poor in Money: [PayPal](https://www.paypal.me/yingshaoxo)
